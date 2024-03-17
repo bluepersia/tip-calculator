@@ -18,7 +18,7 @@ export default function Calculator(): JSX.Element {
   function handleInputChange(e: React.ChangeEvent): void {
     const { name, value } = e.target as HTMLInputElement;
 
-    setFormData((formData) => ({ ...formData, [name]: value }));
+    setFormData((formData) => ({ ...formData, [name]: Number(value) }));
   }
 
   useEffect(() => {
@@ -32,11 +32,11 @@ export default function Calculator(): JSX.Element {
   function calculateTipPerPerson(): number {
     const tipTotal = formData.bill * formData.tip;
 
-    return tipTotal / formData.numPeople;
+    return formData.numPeople ? tipTotal / formData.numPeople : 0;
   }
 
   function calculateTotalPerPerson(): number {
-    return formData.bill / formData.numPeople;
+    return formData.numPeople ? formData.bill / formData.numPeople : 0;
   }
 
   function reset(): void {
@@ -46,50 +46,58 @@ export default function Calculator(): JSX.Element {
   return (
     <div className={styles.calculator}>
       <div className={styles.calculatorInput}>
-        <div className={styles.inputWrapper}>
+        <div className={styles.inputWrapper + ' ' + styles.inputWrapperBill}>
           <h4 className={styles.inputTitle}>Bill</h4>
           <input
             type='number'
-            className={styles.inputNumber}
+            className={styles.input}
             name='bill'
             value={formData.bill}
             onChange={handleInputChange}
+            min={0}
           />
         </div>
         <div className={styles.tipWrapper}>
-          <button onClick={() => setTip(0.05)} className={styles.btnTip}>
-            5%
-          </button>
-          <button onClick={() => setTip(0.1)} className={styles.btnTip}>
-            10%
-          </button>
-          <button onClick={() => setTip(0.15)} className={styles.btnTip}>
-            15%
-          </button>
-          <button onClick={() => setTip(0.25)} className={styles.btnTip}>
-            25%
-          </button>
-          <button onClick={() => setTip(0.5)} className={styles.btnTip}>
-            50%
-          </button>
-          <input
-            className={styles.btnCustom}
-            type='number'
-            placeholder='Custom'
-            value={custom}
-            onChange={(e) =>
-              setCustom(Number((e.target as HTMLInputElement).value))
-            }
-          />
+          <h3 className={styles.inputTitle}>Select Tip %</h3>
+          <div className={styles.tipGrid}>
+            <button onClick={() => setTip(0.05)} className={styles.btnTip}>
+              5%
+            </button>
+            <button onClick={() => setTip(0.1)} className={styles.btnTip}>
+              10%
+            </button>
+            <button onClick={() => setTip(0.15)} className={styles.btnTip}>
+              15%
+            </button>
+            <button onClick={() => setTip(0.25)} className={styles.btnTip}>
+              25%
+            </button>
+            <button onClick={() => setTip(0.5)} className={styles.btnTip}>
+              50%
+            </button>
+            <input
+              className={styles.inputCustom}
+              type='number'
+              placeholder='Custom'
+              value={custom}
+              min={0}
+              onChange={(e) =>
+                setCustom(Number((e.target as HTMLInputElement).value))
+              }
+            />
+          </div>
         </div>
-        <div className={styles.inputWrapper}>
+        <div
+          className={styles.inputWrapper + ' ' + styles.inputWrapperNumPeople}
+        >
           <h4 className={styles.inputTitle}>Number of People</h4>
           <input
             type='number'
-            className={styles.inputNumber}
+            className={styles.input}
             name='numPeople'
             value={formData.numPeople}
             onChange={handleInputChange}
+            min={0}
           />
         </div>
       </div>
