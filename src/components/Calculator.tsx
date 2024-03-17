@@ -59,7 +59,11 @@ export default function Calculator(): JSX.Element {
   }
 
   function calculateTotalPerPerson(): number {
-    return formData.numPeople ? formData.bill / formData.numPeople : 0;
+    const tipPerPerson = calculateTipPerPerson();
+
+    return formData.numPeople
+      ? tipPerPerson + formData.bill / formData.numPeople
+      : 0;
   }
 
   function reset(): void {
