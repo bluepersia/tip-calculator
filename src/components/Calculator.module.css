@@ -1,5 +1,6 @@
 @import '../App.css';
 
+
 .calculator {
     background-color: var(--Verylightgrayishcyan);
     border-radius: 8px;
@@ -159,9 +160,9 @@
    
     .calculator {
         display: flex;
-        width:9999%;
-        transform: translateX(-16.5%);
         max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
         flex-direction: row;
         justify-content: space-between;
 
