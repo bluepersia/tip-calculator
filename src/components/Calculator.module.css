@@ -47,6 +47,24 @@
     color: var(--Verydarkcyan);
     font-weight: bold;
     padding-right: .83em;
+    border-radius: 4px;
+}
+
+.input:hover {
+    border: solid 2px var(--Strongcyan);
+}
+
+.input.invalid {
+    border: solid 2px red;
+}
+
+.inputError {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin-top: 0;
+    font-size: .7rem;
+    color: red;
 }
 
 .tipWrapper {

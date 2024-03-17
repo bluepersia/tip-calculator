@@ -7,6 +7,11 @@ type FormData = {
   numPeople: number;
 };
 
+type InputErrors = {
+  bill: string;
+  numPeople: string;
+};
+
 export default function Calculator(): JSX.Element {
   const [formData, setFormData] = useState<FormData>({
     bill: 0,
@@ -14,6 +19,10 @@ export default function Calculator(): JSX.Element {
     numPeople: 0,
   });
   const [custom, setCustom] = useState<number>();
+  const [inputErrors, setInputErrors] = useState<InputErrors>({
+    bill: '',
+    numPeople: '',
+  });
 
   function handleInputChange(e: React.ChangeEvent): void {
     const { name, value } = e.target as HTMLInputElement;
@@ -24,6 +33,20 @@ export default function Calculator(): JSX.Element {
   useEffect(() => {
     if (custom) setFormData((formData) => ({ ...formData, tip: custom / 100 }));
   }, [custom]);
+
+  useEffect(() => {
+    setInputErrors((errs) => ({
+      ...errs,
+      bill: formData.bill === 0 ? "Can't be zero" : '',
+    }));
+  }, [formData.bill]);
+
+  useEffect(() => {
+    setInputErrors((errs) => ({
+      ...errs,
+      numPeople: formData.numPeople === 0 ? "Can't be zero" : '',
+    }));
+  }, [formData.numPeople]);
 
   function setTip(tip: number): void {
     setFormData((formData) => ({ ...formData, tip }));
@@ -50,12 +73,15 @@ export default function Calculator(): JSX.Element {
           <h4 className={styles.inputTitle}>Bill</h4>
           <input
             type='number'
-            className={styles.input}
+            className={
+              styles.input + ' ' + (inputErrors.bill ? styles.invalid : '')
+            }
             name='bill'
             value={formData.bill}
             onChange={handleInputChange}
             min={0}
           />
+          <p className={styles.inputError}>{inputErrors.bill}</p>
         </div>
         <div className={styles.tipWrapper}>
           <h3 className={styles.inputTitle}>Select Tip %</h3>
@@ -93,12 +119,16 @@ export default function Calculator(): JSX.Element {
           <h4 className={styles.inputTitle}>Number of People</h4>
           <input
             type='number'
-            className={styles.input}
+            className={
+              styles.input + ' ' + (inputErrors.numPeople ? styles.invalid : '')
+            }
             name='numPeople'
             value={formData.numPeople}
             onChange={handleInputChange}
             min={0}
           />
+
+          <p className={styles.inputError}>{inputErrors.numPeople}</p>
         </div>
       </div>
 
