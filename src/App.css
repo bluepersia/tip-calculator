@@ -41,3 +41,7 @@ p {
   margin-bottom: 0;
 }
 
+.title {
+  color: var(--Verydarkcyan);
+  letter-spacing: .2em;
+}
